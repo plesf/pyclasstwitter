@@ -5,6 +5,7 @@ from jinja2 import Environment, FileSystemLoader
 import os
 import glob
 
+
 TEMPLATE_DIR = '/Users/phong/PyClass/feb17_hashtag/templates'
 WEB_DIR = '/Users/phong/PyClass/feb17_hashtag/www'
 
