@@ -15,7 +15,6 @@ FILE_SUFFIX = '.html'
 TWEETS_PER_PAGE = 10
 
 
-
 # debug aid
 def print_tweets_to_screen(tweets):
     pp = pprint.PrettyPrinter(indent=2)
@@ -30,7 +29,7 @@ def print_tweets_to_file(tweets, file_name):
 # custom filters
 def generate_file_name(num):
     if num == 1:
-        return "index.html"
+        return os.path.join(WEB_DIR, "index.html")
     else:
         return os.path.join(WEB_DIR, "{0}{1:03d}{2}".format(HTML_PAGE_STARTS_WITH,
             num, FILE_SUFFIX))
@@ -189,7 +188,9 @@ def prepare_html_pages(tweets, tweets_per_page, directory):
     # zero-based index accordingly
     for num, page in enumerate(list_of_tweet_pages):
         page_file_name = generate_file_name(num+1)
-        html_page = html_template.render(tweets=page, num_of_pages=len(list_of_tweet_pages),
+        print "page file name is: {0}".format(page_file_name)
+        html_page = html_template.render(tweets=page,
+            num_of_pages=len(list_of_tweet_pages),
             current_page=(num+1))
 
         # save to directory
@@ -201,15 +202,15 @@ def create_hashtag_html_pages(hashtag):
     remove_files(WEB_DIR, FILE_SUFFIX)
     tweets = get_tweets(hashtag)
 
-    for tweet in tweets:
-        print "tweet id: {0}".format(tweet['id'])
-        print "user: {0}".format(tweet['name'].encode('utf-8'))
-        print "tweeted: {0}\n".format(tweet['text'].encode('utf-8'))
+    #for tweet in tweets:
+    #   print "tweet id: {0}".format(tweet['id'])
+    #  print "user: {0}".format(tweet['name'].encode('utf-8'))
+    # print "tweeted: {0}\n".format(tweet['text'].encode('utf-8'))
 
     print "harvested {0} texts!".format(len(tweets))
 
-    #prepare_html_pages(tweets, TWEETS_PER_PAGE, WEB_DIR)
-    #print "Success!"
+    prepare_html_pages(tweets, TWEETS_PER_PAGE, WEB_DIR)
+    print "Success!"
 
 if __name__ == '__main__':
     create_hashtag_html_pages("brompton bike")
